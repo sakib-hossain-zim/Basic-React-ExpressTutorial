@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 
 export default class Form extends React.Component {
   state = {
+    val: Math.floor((Math.random() * 10000000) + 1),
     Event_id: "",
     event_name: "",
     event_type: "",
@@ -28,7 +29,10 @@ export default class Form extends React.Component {
     durationerror: "",
     event_statuserror: "",
     travel_grouperror: "",
-    p6_uniqueiderror: ""
+    p6_uniqueiderror: "",
+    weekNoerror: "",
+    meeting_dateerror: "",
+    expected_meeting_dateerror: ""
 
   };
 
@@ -51,18 +55,78 @@ export default class Form extends React.Component {
       durationerror: "",
       event_statuserror: "",
       travel_grouperror: "",
-      p6_uniqueiderror: ""
+      p6_uniqueiderror: "",
+      weekNoerror: "",
+      meeting_dateerror: "",
+      expected_meeting_dateerror: ""
     };
 
     if (this.state.Event_id.length < 3) {
       isError = true;
-      errors.event_iderror = "Event_id needs to be atleast 5 characters long";
+      errors.event_iderror = "Event_id needs to be atleast 3 characters long";
+    }
+
+    if (this.state.event_name.length < 3) {
+      isError = true;
+      errors.event_nameerror = "Event_name needs to be atleast 3 characters long";
+    }
+
+    if (this.state.event_type.length < 5) {
+      isError = true;
+      errors.event_typeerror = "Event_type needs to be atleast 5 characters long";
     }
 
     if (this.state.event_name.length < 3) {
       isError = true;
       errors.event_nameerror = "Event_name needs to be atleast 5 characters long";
     }
+
+
+    if (this.state.description.length < 5) {
+      isError = true;
+      errors.descriptionerror = "Description needs to be atleast 5 characters long";
+    }
+
+    if (this.state.event_location.length < 1) {
+      isError = true;
+      errors.event_locationerror = "Event Location cannot be empty";
+    }
+    if (this.state.month_reported_in_table1.length < 2) {
+      isError = true;
+      errors.month_reported_in_table1error = "Cannot be empty";
+    }
+
+    if (this.state.duration.length < 3) {
+      isError = true;
+      errors.durationerror = "Duration cannot be empty";
+    }
+
+    if (this.state.event_status.length < 3) {
+      isError = true;
+      errors.event_statuserror = "Event Status cannot be empty";
+    }
+    if (this.state.travel_group.length < 3) {
+      isError = true;
+      errors.travel_grouperror = "Travel Grpup cannot be empty";
+    }
+
+    if (this.state.p6_uniqueid.length < 1) {
+      isError = true;
+      errors.p6_uniqueiderror = "Field cannot be cannot be empty";
+    }
+    if (this.state.weekNo.length < 1) {
+      isError = true;
+      errors.weekNoerror = "Field cannot be empty";
+    }
+    if (this.state.meeting_date.length < 1) {
+      isError = true;
+      errors.meeting_dateerror = "Field cannot be empty";
+    }
+    if (this.state.expected_meeting_date.length < 1) {
+      isError = true;
+      errors.expected_meeting_dateerror = "Field cannot be empty";
+    }
+
 
 
 
@@ -78,6 +142,7 @@ export default class Form extends React.Component {
     e.preventDefault();
     const err = this.validate();
     if (!err) {
+      this.setState({val: this.state.val += 1});
       this.props.onSubmit(this.state);
       // clear form
       this.setState({
@@ -104,7 +169,10 @@ export default class Form extends React.Component {
         durationerror: "",
         event_statuserror: "",
         travel_grouperror: "",
-        p6_uniqueiderror: ""
+        p6_uniqueiderror: "",
+        weekNoerror: "",
+        meeting_dateerror: "",
+        expected_meeting_dateerror: ""
       });
 
       var data = {
@@ -146,6 +214,15 @@ export default class Form extends React.Component {
   render() {
     return (
       <form>
+      <TextField
+        name="VAL"
+        hintText="Please insert event"
+        floatingLabelText="VAL"
+        value={this.state.val}
+        floatingLabelFixed
+      />
+      <br />
+
         <TextField
           name="Event_id"
           hintText="Please insert event"
@@ -172,6 +249,7 @@ export default class Form extends React.Component {
           floatingLabelText="Event Type"
           value={this.state.event_type}
           onChange={e => this.change(e)}
+          errorText={this.state.event_typeerror}
           floatingLabelFixed
         />
         <br />
@@ -181,6 +259,7 @@ export default class Form extends React.Component {
           floatingLabelText="Event Description"
           value={this.state.description}
           onChange={e => this.change(e)}
+          errorText={this.state.descriptionerror}
           floatingLabelFixed
         />
         <br />
@@ -190,6 +269,7 @@ export default class Form extends React.Component {
           floatingLabelText="Event Location"
           value={this.state.event_location}
           onChange={e => this.change(e)}
+          errorText={this.state.event_locationerror}
           floatingLabelFixed
         />
         <br />
@@ -199,6 +279,7 @@ export default class Form extends React.Component {
           floatingLabelText="Month Reported"
           value={this.state.month_reported_in_table1}
           onChange={e => this.change(e)}
+          errorText={this.state.month_reported_in_table1error}
           floatingLabelFixed
         />
         <br />
@@ -208,6 +289,7 @@ export default class Form extends React.Component {
           floatingLabelText="Event Duration"
           value={this.state.duration}
           onChange={e => this.change(e)}
+          errorText={this.state.durationerror}
           floatingLabelFixed
         />
         <br />
@@ -217,6 +299,7 @@ export default class Form extends React.Component {
           floatingLabelText="Event Status"
           value={this.state.event_status}
           onChange={e => this.change(e)}
+          errorText={this.state.event_statuserror}
           floatingLabelFixed
         />
         <br />
@@ -227,6 +310,7 @@ export default class Form extends React.Component {
           floatingLabelText="Travel Group"
           value={this.state.travel_group}
           onChange={e => this.change(e)}
+          errorText={this.state.travel_grouperror}
           floatingLabelFixed
         />
         <br />
@@ -237,6 +321,7 @@ export default class Form extends React.Component {
           floatingLabelText="p6_uniqueid"
           value={this.state.p6_uniqueid}
           onChange={e => this.change(e)}
+          errorText={this.state.p6_uniqueiderror}
           floatingLabelFixed
         />
 
@@ -248,6 +333,7 @@ export default class Form extends React.Component {
           floatingLabelText="weekNo"
           value={this.state.weekNo}
           onChange={e => this.change(e)}
+          errorText={this.state.weekNoerror}
           floatingLabelFixed
         />
 
@@ -259,6 +345,7 @@ export default class Form extends React.Component {
           floatingLabelText="Meeting Date"
           value={this.state.meeting_date}
           onChange={e => this.change(e)}
+          errorText={this.state.meeting_dateerror}
           floatingLabelFixed
         />
 
@@ -270,6 +357,7 @@ export default class Form extends React.Component {
           floatingLabelText="Expected Meeting Date"
           value={this.state.expected_meeting_date}
           onChange={e => this.change(e)}
+          errorText={this.state.expected_meeting_dateerror}
           floatingLabelFixed
         />
         <br />
